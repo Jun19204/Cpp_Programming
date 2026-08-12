@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/thoma/C++programming/build/Sales_data",
+  "command": "/usr/bin/c++  -I/home/thoma/C++programming/Sales_data -g -g3 -O0 -fno-omit-frame-pointer -std=gnu++23 -Wall -Wextra -Wconversion -Wsign-conversion -ftemplate-backtrace-limit=0 -o CMakeFiles/Sales_data.dir/Sales_data.cc.o -c /home/thoma/C++programming/Sales_data/Sales_data.cc",
+  "file": "/home/thoma/C++programming/Sales_data/Sales_data.cc",
+  "output": "Sales_data/CMakeFiles/Sales_data.dir/Sales_data.cc.o"
+},
+{
+  "directory": "/home/thoma/C++programming/build/StrBlob",
+  "command": "/usr/bin/c++  -I/home/thoma/C++programming/StrBlob -g -g3 -O0 -fno-omit-frame-pointer -std=gnu++23 -Wall -Wextra -Wconversion -Wsign-conversion -ftemplate-backtrace-limit=0 -o CMakeFiles/StrBlob.dir/StrBlob.cc.o -c /home/thoma/C++programming/StrBlob/StrBlob.cc",
+  "file": "/home/thoma/C++programming/StrBlob/StrBlob.cc",
+  "output": "StrBlob/CMakeFiles/StrBlob.dir/StrBlob.cc.o"
+},
+{
+  "directory": "/home/thoma/C++programming/build/StrBlob",
+  "command": "/usr/bin/c++  -I/home/thoma/C++programming/StrBlob -g -g3 -O0 -fno-omit-frame-pointer -std=gnu++23 -Wall -Wextra -Wconversion -Wsign-conversion -ftemplate-backtrace-limit=0 -o CMakeFiles/StrBlob.dir/StrBlobPtr.cc.o -c /home/thoma/C++programming/StrBlob/StrBlobPtr.cc",
+  "file": "/home/thoma/C++programming/StrBlob/StrBlobPtr.cc",
+  "output": "StrBlob/CMakeFiles/StrBlob.dir/StrBlobPtr.cc.o"
+}
+]

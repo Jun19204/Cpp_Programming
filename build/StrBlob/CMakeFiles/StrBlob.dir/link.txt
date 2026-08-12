@@ -1,0 +1,2 @@
+/usr/bin/ar qc libStrBlob.a CMakeFiles/StrBlob.dir/StrBlob.cc.o CMakeFiles/StrBlob.dir/StrBlobPtr.cc.o
+/usr/bin/ranlib libStrBlob.a

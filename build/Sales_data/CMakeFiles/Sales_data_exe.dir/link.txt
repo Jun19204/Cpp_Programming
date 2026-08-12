@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -g3 -O0 -fno-omit-frame-pointer CMakeFiles/Sales_data_exe.dir/Sales_data.cc.o -o Sales_data_exe 

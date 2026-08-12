@@ -1,0 +1,47 @@
+# ==========================================
+# C/C++ CMake 프로젝트 .gitignore
+# ==========================================
+
+# 1. CMake / Make 빌드 디렉터리 및 부산물 (가장 중요)
+build/
+bin/
+lib/
+out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+
+# 2. 컴파일된 바이너리, 객체 파일 및 정적/동적 라이브러리
+*.o
+*.obj
+*.so
+*.so.*
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+*.out
+
+# 3. Vim 에디터 백업 및 스왑 파일
+*.swp
+*.swo
+*~
+.netrwhist
+
+# 4. C++ Language Server (coc-clangd) / 도구 캐시
+.clangd/
+.cache/
+compile_commands.json
+
+# 5. OS 생성 임시 파일 및 WSL 생성 파일
+.DS_Store
+Thumbs.db
+
+# 6. GDB / Valgrind / Core 덤프 로그
+vgcore.*
+core
+gmon.out
+

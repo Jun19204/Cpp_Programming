@@ -31,10 +31,11 @@ include(CTest)
 # 각 서브 타겟을 CTest 등록 (예: Sales_data_exe)
 add_test(NAME Test_Sales_data COMMAND Sales_data_exe)
 add_test(NAME Test_StrBlob COMMAND StrBlob_exe)
-
+add_test(NAME Test_Query COMMAND Query_exe)
 
 
 # 등록하고 싶은 연습 문제 폴더들 추가
 add_subdirectory(Sales_data)
 add_subdirectory(StrBlob)
+add_subdirectory(Query)
 # 필요할 때 새로운 폴더를 만들어 add_subdirectory(새폴더) 추가

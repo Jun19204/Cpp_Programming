@@ -7,17 +7,20 @@
 
 class StrVec {
 public:
-    StrVec():
-        elements(nullptr), first_free(nullptr), cap(nullptr) {}
-    StrVec(const StrVec&);
-    StrVec& operator=(const StrVec&);
-    ~StrVec();
+    StrVec() = default; // 기본 생성자
+    StrVec(const StrVec&); // 복사 생성자
+    StrVec(StrVec&&) noexcept; // 이동 생성자
+    StrVec& operator=(const StrVec&) ; // 복사 대입 연산자
+    StrVec& operator=(StrVec&&) noexcept; // 이동 대입 연산자
+    ~StrVec(); // 소멸자
 
     void push_back(const std::string&);
-    size_t size() const 
-        { return static_cast<size_t>(first_free - elements); }
-    size_t capacity() const 
-        { return static_cast<size_t>(cap - elements); }
+    void push_back(std::string&&);
+
+    std::size_t size() const 
+        { return static_cast<std::size_t>(first_free - elements); }
+    std::size_t capacity() const 
+        { return static_cast<std::size_t>(cap - elements); }
     std::string* begin() const { return elements; }
     std::string* end() const { return first_free; }
 
@@ -31,7 +34,7 @@ private:
     void free();
     void reallocate();
 
-    std::string *elements;
-    std::string *first_free;
-    std::string *cap;
+    std::string *elements{nullptr};
+    std::string *first_free{nullptr};
+    std::string *cap{nullptr};
 };

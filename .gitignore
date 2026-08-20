@@ -36,11 +36,14 @@ Makefile
 .cache/
 compile_commands.json
 
-# 5. OS 생성 임시 파일 및 WSL 생성 파일
+# 5. vscode 연동 설정
+.vscode
+
+# 6. OS 생성 임시 파일 및 WSL 생성 파일
 .DS_Store
 Thumbs.db
 
-# 6. GDB / Valgrind / Core 덤프 로그
+# 7. GDB / Valgrind / Core 덤프 로그
 vgcore.*
 core
 gmon.out

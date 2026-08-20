@@ -10,8 +10,8 @@ public:
   StrVec() = default;                    // 기본 생성자
   StrVec(const StrVec &);                // 복사 생성자
   StrVec(StrVec &&) noexcept;            // 이동 생성자
-  StrVec &operator=(const StrVec &);     // 복사 대입 연산자
-  StrVec &operator=(StrVec &&) noexcept; // 이동 대입 연산자
+  StrVec &operator=(const StrVec &) &;     // 복사 대입 연산자
+  StrVec &operator=(StrVec &&) & noexcept; // 이동 대입 연산자
   ~StrVec();                             // 소멸자
 
   void push_back(const std::string &);

@@ -53,7 +53,7 @@ StrVec::StrVec(StrVec &&s) noexcept
 }
 
 // 복사 제어 - 복사 대입 연산자
-StrVec &StrVec::operator=(const StrVec &rhs) 
+StrVec &StrVec::operator=(const StrVec &rhs) &
 {
   auto data = alloc_n_copy(rhs.begin(), rhs.end());
   free();
@@ -63,7 +63,7 @@ StrVec &StrVec::operator=(const StrVec &rhs)
 }
 
 // 복사 제어 - 이동 대입 연산자
-StrVec &StrVec::operator=(StrVec &&rhs) noexcept 
+StrVec &StrVec::operator=(StrVec &&rhs) & noexcept 
 {
   if (this != &rhs) {
     free();

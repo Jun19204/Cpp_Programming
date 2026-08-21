@@ -3,7 +3,8 @@
 using namespace std;
 
 // 멤버 함수 정의
-inline Sales_data &Sales_data::combine(const Sales_data &rhs) 
+
+inline Sales_data& Sales_data::combine(const Sales_data &rhs) 
 {
   units_sold += rhs.units_sold;
   revenue += rhs.revenue;
@@ -43,22 +44,13 @@ istream &read(istream &is, Sales_data &item) {
 
 istream &operator>>(istream &is, Sales_data &rhs) 
 {
-  double price;
-  is >> rhs.bookNo >> rhs.units_sold >> price;
-  if (is) {
-    rhs.revenue = rhs.units_sold * price;
-  }
-  else {
-    rhs = Sales_data();
+  Sales_data temp;
+  double price{0.0};
+  if (is >> temp.bookNo >> temp.units_sold >> price) {
+    temp.revenue = temp.units_sold * price;
+    rhs = std::move(temp);
   }
   return is;
 }
-
-
-
-
-
-
-
 
 

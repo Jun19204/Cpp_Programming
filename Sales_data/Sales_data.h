@@ -20,6 +20,12 @@ public:
     is >> bookNo >> units_sold >> price;
     revenue = price * units_sold;
   }
+  // 복사제어 
+  Sales_data(const Sales_data &) = default;
+  Sales_data(Sales_data &&) = default;
+  Sales_data& operator=(const Sales_data &) = default;
+  Sales_data& operator=(Sales_data &&) = default;
+  ~Sales_data() = default;
 
   // 멤버 함수
   std::string isbn() const { return bookNo; }

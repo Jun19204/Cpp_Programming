@@ -4,9 +4,9 @@
 
 add_library(Mail_lib STATIC mail.cc)
 add_library(Sales_data_lib STATIC Sales_data.cc)
-add_library(StrBlob_lib STATIC StrBlob.cc)
 add_library(StrVec_lib STATIC StrVec.cc)
 add_library(Query_lib STATIC Query.cc)
+add_library(error_code_lib STATIC error_code.cc)
 
 target_link_libraries(
   Query_lib
@@ -18,9 +18,9 @@ set(
   ALL_LIBS
   Mail_lib
   Sales_data_lib
-  StrBlob_lib
   StrVec_lib
   Query_lib
+  error_code_lib
 )
 
 foreach(lib IN LISTS ALL_LIBS)

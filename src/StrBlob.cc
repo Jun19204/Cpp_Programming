@@ -1,6 +1,5 @@
-#include "myproject/StrBlob.h"
+#include "StrBlob/StrBlob.h"
 
-#include "myproject/StrBlobPtr.h"
 #include <stdexcept>
 
 StrBlob::StrBlob() : data(std::make_shared<std::vector<std::string>>()) {}

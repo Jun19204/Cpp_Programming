@@ -15,11 +15,16 @@ target_link_libraries(
 )
 
 add_executable(
-  word_transform_app
-  word_transform-main.cc
+  Quote_app
+  Quote-main.cc
+)
+target_include_directories( # Quote.h가 header-only이기 때문
+  Quote_app
+  PRIVATE
+  "${PROJECT_SOURCE_DIR}/include"
 )
 target_link_libraries(
-  word_transform_app
+  Quote_app
   PRIVATE
   project_warnings
   project_sanitizers

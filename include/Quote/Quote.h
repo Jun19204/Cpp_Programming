@@ -55,7 +55,7 @@ double Bulk_quote::net_price(std::size_t cnt) const
 
 
 inline
-double print_total(
+void print_total(
     std::ostream &os,
     const Quote &item,
     std::size_t n
@@ -66,7 +66,6 @@ double print_total(
      << " # sold: " << n 
      << " total due: " << ret 
      << std::endl;
-  return ret;
 }
 
 

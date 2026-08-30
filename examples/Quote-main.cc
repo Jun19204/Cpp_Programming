@@ -1,4 +1,6 @@
 #include "Quote/Quote.h"
+#include "Quote/Bulk_quote.h"
+
 #include <cstdlib>
 #include <iostream>
 

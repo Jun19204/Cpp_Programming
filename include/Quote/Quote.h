@@ -12,19 +12,19 @@ public:
       const std::string &book, 
       double sales_price
       )
-    : bookNo(book), price(sales_price)
+    : bookNo_(book), price_(sales_price)
   { }
   std::string isbn() const
-  { return bookNo; }
+  { return bookNo_; }
   virtual double net_price(std::size_t n) const
-  { return price * static_cast<double>(n); }
+  { return price_ * static_cast<double>(n); }
   virtual ~Quote() = default;
   virtual void debug(std::ostream &os) const
-  { os << bookNo << " " << price << "\n"; }
+  { os << bookNo_ << " " << price_ << "\n"; }
 private:
-  std::string bookNo;
+  std::string bookNo_;
 protected:
-  double price = 0.0;
+  double price_ = 0.0;
 };
 
 

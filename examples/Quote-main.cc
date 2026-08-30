@@ -10,5 +10,11 @@ int main(void)
   print_total(std::cout, q, 10);
   print_total(std::cout, bq, 10); 
 
+  Quote *ptr1 = &q;
+  Quote *ptr2 = &bq;
+
+  ptr1->debug(std::cout);
+  ptr2->debug(std::cout);
+
   return EXIT_SUCCESS;
 }

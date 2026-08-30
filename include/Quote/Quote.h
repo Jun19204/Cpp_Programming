@@ -19,6 +19,8 @@ public:
   virtual double net_price(std::size_t n) const
   { return price * static_cast<double>(n); }
   virtual ~Quote() = default;
+  virtual void debug(std::ostream &os) const
+  { os << bookNo << " " << price << "\n"; }
 private:
   std::string bookNo;
 protected:
@@ -38,6 +40,8 @@ public:
     : Quote(book, p), min_qty(qty), discount(disc)
   { }
   double net_price(std::size_t) const override;
+  void debug(std::ostream &os) const override
+  { Quote::debug(os); os << min_qty << " " << discount << "\n"; }
 private:
   std::size_t min_qty = 0;
   double discount = 0.0;

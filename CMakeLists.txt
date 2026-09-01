@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.23)
 
-# 지원되는 경우 MSVC 컴파일러에 대해 핫 다시 로드 사용하도록 설정합니다.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+# 지원되는 경우 MSVC 컴파일러에 대해 Hot Relaod 사용하도록 설정
+if(MSVC)
+  if (POLICY CMP0141)
+    cmake_policy(SET CMP0141 NEW)
+    set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+  endif()
 endif()
 
 project(
   CPP-LAB
   VERSION 1.0.0
   LANGUAGES CXX
-)
+  )
 
 # ============================================================
 # C++ Standard
@@ -26,12 +28,12 @@ option(
   USE_SANITIZER
   "Enable AddressSanitizer and UndefinedBehaviorSanitizer"
   OFF
-)
+  )
 option(
   BUILD_EXAMPLES
   "Build example executables"
   ON
-)
+  )
 
 # ============================================================
 # Testing
@@ -43,7 +45,7 @@ include(CTest)
 # ============================================================
 list(APPEND CMAKE_MODULE_PATH
   "${PROJECT_SOURCE_DIR}/cmake"
-)
+  )
 include(CompilerWarnings)
 include(Sanitizers)
 
@@ -53,12 +55,12 @@ include(Sanitizers)
 add_library(
   project_warnings
   INTERFACE
-)
+  )
 target_compile_options(
   project_warnings
   INTERFACE
   ${PROJECT_WARNING_FLAGS}
-)
+  )
 
 # ============================================================
 # Sanitizers
@@ -66,10 +68,10 @@ target_compile_options(
 add_library(
   project_sanitizers
   INTERFACE
-)
+  )
 enable_sanitizers(
   project_sanitizers
-)
+  )
 
 # ============================================================
 # GoogleTest
@@ -80,20 +82,20 @@ if(BUILD_TESTING)
   FetchContent_Declare(
     googletest
     URL
-      https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
+    https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-  )
+    )
 
   set(
     INSTALL_GTEST
     OFF
     CACHE BOOL ""
     FORCE
-  )
+    )
 
   FetchContent_MakeAvailable(
     googletest
-  )
+    )
 endif()
 
 # ============================================================

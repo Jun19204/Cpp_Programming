@@ -1,5 +1,6 @@
 #include "Query/Query.h"
 
+#include <memory>
 #include <sstream>
 #include <iostream>
 

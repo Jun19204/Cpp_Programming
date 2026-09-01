@@ -5,12 +5,11 @@
 
 
 // 표준 에러 메시지
-[[nodiscard]] // 호출자가 반환값을 무시하면 컴파일러 경고
-              // 반환값을 반드시 확인해야하는 함수에 붙임
-constexpr std::string_view // 헤더와 구현파일 내부에서만 사용하고 
-                           // 외부로는 공개하지않는 헬퍼 함수 이므로
-                           // inline이어도 헤더에서 정의하지 않아도 된다.
-message_of(error_code code) noexcept
+// 호출자가 반환값을 무시하면 컴파일러 경고
+// 반환값을 반드시 확인해야하는 함수에 붙임
+[[nodiscard]]
+constexpr auto message_of(error_code code) noexcept 
+-> std::string_view
 {
   switch (code) {
   case error_code::file_open_failed:
@@ -31,11 +30,12 @@ message_of(error_code code) noexcept
 
 
 // 로그 출력용 메시지
+// 헤더와 구현 파일 내부에서만 사용하고 
+// 외부로는 공개하지않는 헬퍼 함수이므로
+// inline이어도 헤더에서 정의하지 않아도 된다.
 [[nodiscard]]
-constexpr std::string_view // 헤더와 구현 파일 내부에서만 사용하고 
-                           // 외부로는 공개하지않는 헬퍼 함수이므로
-                           // inline이어도 헤더에서 정의하지 않아도 된다.
-name_of(error_code code) noexcept
+constexpr auto name_of(error_code code) noexcept 
+-> std::string_view
 {
   switch (code) {
   case error_code::file_open_failed:

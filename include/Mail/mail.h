@@ -7,16 +7,16 @@ class Folder;
 
 class Message {
     friend class Folder;
-    friend void swap(Message &lhs, Message &rhs);
-    friend void swap(Folder &lhs, Folder &rhs);
+    friend void swap(Message &lhs, Message &rhs) noexcept;
+    friend void swap(Folder &lhs, Folder &rhs) noexcept;
 
 public:
-    explicit Message(const std::string &str = "") 
+    explicit Message(const std::string &&str = "") 
         : contents(str) {}
 
     // --- Rule of Three ---
     Message(const Message &m);            // 복사 생성자
-    Message& operator=(const Message &rhs); // 복사 대입 연산자
+    auto operator=(const Message &rhs) -> Message&; // 복사 대입 연산자
     ~Message();                           // 소멸자
 
     // 메시지-폴더 저장 및 제거 인터페이스
@@ -35,14 +35,14 @@ private:
 
 class Folder {
     friend class Message;
-    friend void swap(Folder &lhs, Folder &rhs);
+    friend void swap(Folder &lhs, Folder &rhs) noexcept;
 
 public:
     Folder() = default;
 
     // --- Rule of Three ---
     Folder(const Folder &f);            // 복사 생성자
-    Folder& operator=(const Folder &rhs); // 복사 대입 연산자
+    auto operator=(const Folder &rhs) -> Folder&; // 복사 대입 연산자
     ~Folder();                          // 소멸자
 
     // Message 포인터는 non-const이어야 서로의 상태를 변경할 수 있음

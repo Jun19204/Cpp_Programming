@@ -17,8 +17,9 @@ void StrVec::push_back(string &&s)
     ::construct(alloc, first_free++, std::move(s));
 }
 
-pair<string *, string *> StrVec::alloc_n_copy(const string *b,
-                                              const string *e) 
+auto StrVec::alloc_n_copy(const string *b,
+                          const string *e) 
+  -> pair<string*, string*>
 {
   auto data = alloc.allocate(static_cast<size_t>(e - b));
   return make_pair(data, uninitialized_copy(b, e, data));
@@ -28,7 +29,7 @@ void StrVec::free()
 {
   if (elements) {
     for_each(make_reverse_iterator(first_free), make_reverse_iterator(elements),
-             [](const string &s) {
+             [](const string &s) -> void {
                allocator_traits<decltype(alloc)>::destroy(alloc, addressof(s));
              });
     alloc.deallocate(elements, static_cast<size_t>(cap - elements));
@@ -51,8 +52,11 @@ StrVec::StrVec(StrVec &&s) noexcept
 }
 
 // 복사 제어 - 복사 대입 연산자
-StrVec &StrVec::operator=(const StrVec &rhs) &
+auto StrVec::operator=(const StrVec &rhs) & -> StrVec&
 {
+  if (this == &rhs) {
+    return *this;
+  }
   auto data = alloc_n_copy(rhs.begin(), rhs.end());
   free();
   elements = data.first;
@@ -61,7 +65,8 @@ StrVec &StrVec::operator=(const StrVec &rhs) &
 }
 
 // 복사 제어 - 이동 대입 연산자
-StrVec &StrVec::operator=(StrVec &&rhs) & noexcept 
+auto StrVec::operator=(StrVec &&rhs) & noexcept 
+  -> StrVec&
 {
   if (this != &rhs) {
     free();
@@ -91,7 +96,8 @@ void StrVec::reallocate()
 
 
 // 연산자 오버로딩 - 대입
-StrVec &StrVec::operator=(initializer_list<string> il)
+auto StrVec::operator=(initializer_list<string> il)
+  -> StrVec&
 {
   auto data = alloc_n_copy(il.begin(), il.end());
   free();

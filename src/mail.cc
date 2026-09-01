@@ -44,7 +44,7 @@ Message::~Message()
     remove_from_Folders();
 }
 
-Message& Message::operator=(const Message &rhs)
+auto Message::operator=(const Message &rhs) -> Message&
 {
     remove_from_Folders();
     contents = rhs.contents;
@@ -53,7 +53,7 @@ Message& Message::operator=(const Message &rhs)
     return *this;
 }
 
-void swap(Message &lhs, Message &rhs)
+void swap(Message &lhs, Message &rhs) noexcept
 {
     using std::swap;
     for (auto f : lhs.folders) {

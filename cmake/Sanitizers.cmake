@@ -1,3 +1,5 @@
+# cmake/Sanitizers.cmake
+
 function(enable_sanitizers target)
   if(NOT USE_SANITIZER)
     return()
@@ -29,3 +31,4 @@ function(enable_sanitizers target)
       )
   endif()
 endfunction()
+

@@ -1,4 +1,4 @@
-# CompilerWarnings.cmake
+# cmake/CompilerWarnings.cmake
 
 if(MSVC)
   set(

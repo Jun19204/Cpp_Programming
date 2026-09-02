@@ -93,8 +93,8 @@ void Folder::remove_from_Messages() {
     }
 }
 
-Folder::Folder(const Folder &f) {
-    add_to_Messages(f);
+Folder::Folder(const Folder &folder) {
+    add_to_Messages(folder);
 }
 
 Folder& Folder::operator=(const Folder &rhs) {
@@ -109,7 +109,7 @@ Folder::~Folder() {
     remove_from_Messages();
 }
 
-void swap(Folder &lhs, Folder &rhs) {
+void swap(Folder &lhs, Folder &rhs) noexcept {
     using std::swap;
     for (auto it = lhs.msgs.begin(); it != lhs.msgs.end(); ++it) {
         (*it)->folders.erase(&lhs);

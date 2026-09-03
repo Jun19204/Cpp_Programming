@@ -15,11 +15,12 @@ public:
       )
     : Disc_quote(book, price, qty, disc)
   { }
-  double net_price(std::size_t) const override;
-  void debug(std::ostream &os) const override
+  [[nodiscard]]
+  double net_price(std::size_t cnt) const override;
+  void debug(std::ostream &ostrm) const override
   { 
-    Quote::debug(os); 
-    os << quantitiy_ << " " << discount_;
+    Quote::debug(ostrm); 
+    ostrm << quantitiy_ << " " << discount_;
   }
 };
 
@@ -27,10 +28,10 @@ public:
 inline
 double Bulk_quote::net_price(std::size_t cnt) const
 {
-  if (cnt >= quantitiy_)
+  if (cnt >= quantitiy_) {
     return static_cast<double>(cnt) * (1 - discount_) * price_;
-  else
-    return static_cast<double>(cnt) * price_;
+  }
+  return static_cast<double>(cnt) * price_;
 }
 
 

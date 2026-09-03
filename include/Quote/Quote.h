@@ -21,10 +21,10 @@ public:
   virtual double net_price(std::size_t n) const
   { return price_ * static_cast<double>(n); }
   virtual ~Quote() = default;
-  virtual void debug(std::ostream &ostrm) const
-  { ostrm << bookNo_ << " " << price_ << "\n"; }
+
 private:
   std::string bookNo_;
+
 protected:
   double price_ = 0.0;
 };

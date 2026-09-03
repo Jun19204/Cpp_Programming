@@ -6,8 +6,6 @@
 
 using namespace std;
 
-StrVec sv;
-
 TextQuery::TextQuery(ifstream &is) : file(make_shared<StrVec>()) {
   string text;
   while (getline(is, text)) {

@@ -3,21 +3,31 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 int main()
 {
-  Quote quote{"11111", 5000};
-  Bulk_quote bulkQuote{"22222", 6000, 5, 0.3};
+  std::vector<Quote> valueVec;
+  std::vector<std::shared_ptr<Quote>> shptrVec;
 
-  print_total(std::cout, quote, 10);
-  print_total(std::cout, bulkQuote, 10); 
+  valueVec.push_back(Quote("111", 5000));
+  // Object Slicing 발생
+  valueVec.push_back(Bulk_quote("222", 5000, 5, 0.5));
+  for (const auto& element : valueVec) {
+    std::cout << element.isbn() << " "
+              << element.net_price(10) << '\n';
+  }
 
-  std::cout << "\n";
+  std::cout << '\n';
 
-  Quote *ptr1 = &quote;
-  Quote *ptr2 = &bulkQuote;
-  ptr1->debug(std::cout);
-  ptr2->debug(std::cout);
+  shptrVec.push_back(std::make_shared<Quote>("111", 5000));
+  // shared_ptr도 Derived-to-Base 변환이 가능
+  shptrVec.push_back(std::make_shared<Bulk_quote>("222", 5000, 5, 0.5));
+  for (const auto& element : shptrVec) {
+    std::cout << element->isbn() << " "
+              << element->net_price(10) << '\n';
+  }
 
   return EXIT_SUCCESS;
 }

@@ -26,6 +26,7 @@ target_include_directories( # Quote.h, Bulk_quote.h, Disc_quote.h가 header-only
 target_link_libraries(
   Quote_app
   PRIVATE
+  Basket_lib
   project_warnings
   project_sanitizers
 )

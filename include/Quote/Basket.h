@@ -8,8 +8,11 @@
 class Basket {
 public:
   /* 합성버전 기본 생성자와 복사 제어 멤버를 사용 */
-  void addItem(const std::shared_ptr<Quote> &sale) {
-    items_.insert(sale);
+  void addItem(const Quote& sale) {
+    items_.insert(std::shared_ptr<Quote>(sale.clone()));
+  }
+  void addItem(Quote&& sale) {
+    items_.insert(std::shared_ptr<Quote>(std::move(sale).clone()));
   }
   double totalReceipt(std::ostream&) const;
 
@@ -21,5 +24,4 @@ private:
   std::multiset<std::shared_ptr<Quote>
               , decltype(compare)*> items_{compare};
 };
-
 

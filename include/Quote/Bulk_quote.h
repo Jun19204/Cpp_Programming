@@ -17,6 +17,11 @@ public:
   using Disc_quote::Disc_quote;
 
   [[nodiscard]]
+  Bulk_quote* clone() const & override { return new Bulk_quote(*this); }
+  [[nodiscard]]
+  Bulk_quote* clone() && override { return new Bulk_quote(std::move(*this)); }
+
+  [[nodiscard]]
   double net_price(std::size_t cnt) const override;
 };
 

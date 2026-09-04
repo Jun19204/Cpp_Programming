@@ -1,8 +1,10 @@
 #pragma once
 
+#include <algorithm>
 #include <cstddef>
 #include <ostream>
 #include <string>
+#include <utility>
 
 
 class Quote { // 기초 클래스
@@ -14,12 +16,22 @@ public:
       )
     : bookNo_(book), price_(sales_price)
   { }
+  Quote(const Quote&) = default;
+  Quote(Quote&&) noexcept = default;
+  Quote& operator=(const Quote&) & = default;
+  Quote& operator=(Quote&&) & noexcept = default;
   [[nodiscard]]
   std::string isbn() const
   { return bookNo_; }
   [[nodiscard]]
   virtual double net_price(std::size_t n) const
   { return price_ * static_cast<double>(n); }
+  [[nodiscard]]
+  virtual Quote* clone() const & { return new Quote(*this); }
+  [[nodiscard]]
+  virtual Quote* clone() && { return new Quote(std::move(*this)); }
+
+
   virtual ~Quote() = default;
 
 private:
@@ -31,7 +43,7 @@ protected:
 
 
 inline
-void print_total(
+double printTotal(
     std::ostream &ostrm,
     const Quote &item,
     std::size_t n
@@ -42,6 +54,7 @@ void print_total(
      << " # sold: " << n 
      << " total due: " << ret 
      << '\n';
+  return ret;
 }
 
 

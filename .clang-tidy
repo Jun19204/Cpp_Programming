@@ -9,6 +9,7 @@ Checks: >
   readability-*,
   -modernize-use-trailing-return-type,
   -readability-identifier-naming,
+  -readability-identifier-length,
   -readability-magic-numbers,
   -readability-uppercase-literal-suffix,
   -readability-function-cognitive-complexity,
@@ -20,4 +21,3 @@ CheckOptions:
     value: '5'
   - key: performance-for-range-copy.WarnOnAllAutoCopies
     value: 'true'
-

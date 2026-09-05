@@ -1,39 +1,176 @@
-#pragma once
-
-#include "Query/QueryBase.h"
-#include "Query/TextQuery.h"
-#include "Query/QueryResult.h"
-#include "Query/WordQuery.h"
+#include <algorithm>
+#include <cstddef>
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <map>
 #include <memory>
-#include <ostream>
+#include <set>
+#include <sstream>
 #include <string>
+#include <vector>
+
+class QueryResult;
+
+class TextQuery {
+public:
+  using LineNo = std::vector<std::string>::size_type;
+
+  explicit TextQuery(std::ifstream&);
+  [[nodiscard]] QueryResult query(const std::string&) const;
+
+private:
+  std::shared_ptr<std::vector<std::string>> file_;
+  std::map<std::string, std::shared_ptr<std::set<LineNo>>> word_map_;
+};
+
+
+
+class QueryBase {
+  friend class Query;
+
+protected:
+  using LineNo = TextQuery::LineNo;
+  virtual ~QueryBase() = default;
+
+private:
+  [[nodiscard]] virtual QueryResult eval(const TextQuery&) const = 0;
+  [[nodiscard]] virtual std::string rep() const = 0;
+};
+
+
+
+class QueryResult {
+  friend std::ostream& print(std::ostream&, const QueryResult&);
+
+public:
+  QueryResult(
+      const std::string& sought,
+      std::shared_ptr<std::set<TextQuery::LineNo>> lines,
+      std::shared_ptr<std::vector<std::string>> file)
+      : sought_(sought),
+        lines_(std::move(lines)),
+        file_(std::move(file)) {}
+
+  [[nodiscard]] std::shared_ptr<std::vector<std::string>> getFile() const {
+    return file_;
+  }
+
+  [[nodiscard]] auto begin() const {
+    return lines_->begin();
+  }
+
+  [[nodiscard]] auto end() const {
+    return lines_->end();
+  }
+
+private:
+  std::string sought_;
+  std::shared_ptr<std::set<TextQuery::LineNo>> lines_;
+  std::shared_ptr<std::vector<std::string>> file_;
+};
+
+
 
 class Query {
   friend Query operator~(const Query&);
   friend Query operator|(const Query&, const Query&);
   friend Query operator&(const Query&, const Query&);
+
 public:
-  Query(const std::string&);
-  [[nodiscard]]
-  QueryResult eval(const TextQuery &text) const {
-    return query_->eval(text);
-  }
-  [[nodiscard]]
-  std::string rep() const { 
-    return query_->rep(); 
-  }
+  explicit Query(const std::string&);
+
+  [[nodiscard]] QueryResult eval(const TextQuery&) const;
+  [[nodiscard]] std::string rep() const;
+
 private:
-  Query(std::shared_ptr<QueryBase> query) : query_(query) { }
+  explicit Query(std::shared_ptr<QueryBase> query)
+      : query_(std::move(query)) {}
+
   std::shared_ptr<QueryBase> query_;
 };
 
-inline
-Query::Query(const std::string& str)
-  : query_{new WordQuery(str)} { }
+std::ostream& operator<<(std::ostream&, const Query&);
 
-inline
-std::ostream&
-operator<<(std::ostream& ostrm, const Query& query) {
-  return ostrm << query.rep();
-}
+
+
+class WordQuery : public QueryBase {
+  friend class Query;
+
+  explicit WordQuery(const std::string& str)
+      : query_word_(str) {}
+
+  [[nodiscard]] QueryResult eval(const TextQuery& text) const override {
+    return text.query(query_word_);
+  }
+
+  [[nodiscard]] std::string rep() const override {
+    return query_word_;
+  }
+
+  std::string query_word_;
+};
+
+
+
+class NotQuery : public QueryBase {
+  friend Query operator~(const Query&);
+
+  explicit NotQuery(const Query& query)
+      : query_(query) {}
+
+  [[nodiscard]] std::string rep() const override {
+    return "~(" + query_.rep() + ")";
+  }
+
+  [[nodiscard]] QueryResult eval(const TextQuery&) const;
+
+  Query query_;
+};
+
+
+
+class BinaryQuery : public QueryBase {
+protected:
+  BinaryQuery(
+      const Query& lhs,
+      const Query& rhs,
+      const std::string& op_sym)
+      : lhs_(lhs),
+        rhs_(rhs),
+        op_sym_(op_sym) {}
+
+  [[nodiscard]] std::string rep() const override {
+    return "(" + lhs_.rep() + " "
+           + op_sym_ + " "
+           + rhs_.rep() + ")";
+  }
+
+  Query lhs_;
+  Query rhs_;
+  std::string op_sym_;
+};
+
+
+
+class AndQuery : public BinaryQuery {
+  friend Query operator&(const Query&, const Query&);
+
+  AndQuery(const Query& lhs, const Query& rhs)
+      : BinaryQuery(lhs, rhs, "&") {}
+
+  [[nodiscard]] QueryResult eval(const TextQuery&) const override;
+};
+
+
+
+class OrQuery : public BinaryQuery {
+  friend Query operator|(const Query&, const Query&);
+
+  OrQuery(const Query& lhs, const Query& rhs)
+      : BinaryQuery(lhs, rhs, "|") {}
+
+  [[nodiscard]] QueryResult eval(const TextQuery&) const override;
+};
+
 

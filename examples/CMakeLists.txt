@@ -3,16 +3,11 @@
 # ============================================================
 
 add_executable(
-  TextQuery_app
-  TextQuery-main.cc
-)
-target_include_directories(
-  TextQuery_app
-  PRIVATE
-  "${PROJECT_SOURCE_DIR}/include"
+  Query_app
+  Query-main.cc
 )
 target_link_libraries(
-  TextQuery_app
+  Query_app
   PRIVATE
   Query_lib
   project_warnings
@@ -32,18 +27,6 @@ target_link_libraries(
   Quote_app
   PRIVATE
   Basket_lib
-  project_warnings
-  project_sanitizers
-)
-
-add_executable(
-  throw_error_app
-  throw_error-main.cc
-)
-target_link_libraries(
-  throw_error_app
-  PRIVATE
-  error_code_lib
   project_warnings
   project_sanitizers
 )

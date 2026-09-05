@@ -1,4 +1,4 @@
-#include "Query/Query.h"
+#include "TextQuery/TextQuery.h"
 
 #include <cstdlib>
 

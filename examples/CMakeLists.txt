@@ -3,13 +3,13 @@
 # ============================================================
 
 add_executable(
-  Query_app
-  query-main.cc
+  TextQuery_app
+  TextQuery-main.cc
 )
 target_link_libraries(
-  Query_app
+  TextQuery_app
   PRIVATE
-  Query_lib
+  TextQuery_lib
   project_warnings
   project_sanitizers
 )

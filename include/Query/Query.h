@@ -3,6 +3,7 @@
 #include "Query/QueryBase.h"
 #include "Query/TextQuery.h"
 #include "Query/QueryResult.h"
+#include "Query/WordQuery.h"
 #include <memory>
 #include <ostream>
 #include <string>
@@ -27,10 +28,12 @@ private:
 };
 
 inline
+Query::Query(const std::string& str)
+  : query_{new WordQuery(str)} { }
+
+inline
 std::ostream&
-operator<<(std::ostream& ostrm, const Query &query) {
+operator<<(std::ostream& ostrm, const Query& query) {
   return ostrm << query.rep();
 }
-
-
 

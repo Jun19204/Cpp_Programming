@@ -1,61 +1,78 @@
-#include "TextQuery/TextQuery.h"
+#include "Query/TextQuery.h"
+#include "Query/QueryResult.h"
 
+#include <cstddef>
 #include <iostream>
+#include <fstream>
 #include <memory>
+#include <ostream>
+#include <set>
 #include <sstream>
+#include <vector>
+#include <string>
 
-using namespace std;
+using std::size_t;
+using std::vector;
+using std::string;
+using std::set;
+using std::cout;
+using std::cin;
+using std::getline;
+using std::ifstream;
+using std::ostream;
+using std::istringstream;
+using std::shared_ptr;
+using std::make_shared;
 
-TextQuery::TextQuery(ifstream &is) : file(make_shared<StrVec>()) {
+TextQuery::TextQuery(ifstream &istrm)
+  : file(new vector<string>) {
   string text;
-  while (getline(is, text)) {
-    file->push_back(text);        // 본문 내용 기억
-    line_no n = file->size() - 1; // 현재 줄 번호
+  while (getline(istrm, text)) {
+    file->push_back(text);
+    LineNo number = file->size() - 1;
     istringstream line(text);
-
     string word;
     while (line >> word) {
-      auto &lines = wm[word];
-      if (!lines) {
-        lines = make_shared<set<line_no>>();
+      auto& lines = word_map[word];
+      if (!lines) { 
+        lines = make_shared<set<LineNo>>(); 
       }
-      lines->insert(n);
+      lines->insert(number);
     }
   }
 }
 
-auto TextQuery::query(const string &sought) const -> QueryResult {
-  static shared_ptr<set<line_no>> nodata = make_shared<set<line_no>>();
-  auto loc = wm.find(sought);
-  if (loc == wm.cend())
-    return QueryResult{sought, nodata, file};
-  else
-    return QueryResult{sought, loc->second, file};
-}
-
-inline auto 
-make_plural(size_t sz, const string &word, const string &ending) -> string {
-  return (sz > 1) ? word + ending : word;
-}
-
-auto print(ostream &os, const QueryResult &qr) -> ostream&
-{
-  os << "\'" << qr.sought << "\'" << " occurs " << qr.lines->size() << " "
-     << make_plural(qr.lines->size(), "time", "s") << '\n';
-  for (auto num : *qr.lines) {
-    os << "\t(line " << num + 1 << ") "
-       << *(qr.file->begin() + static_cast<long>(num)) << '\n';
+[[nodiscard]]
+QueryResult
+TextQuery::query(const string &sought) const {
+  static shared_ptr<set<LineNo>> nodata = make_shared<set<LineNo>>();
+  auto location = word_map.find(sought);
+  if (location == word_map.end()) {
+    return QueryResult(sought, nodata, file);
   }
-  return os;
+  return QueryResult(sought, location->second, file);
 }
 
-void runQueries(ifstream &infile) {
-  TextQuery tq(infile);
+string
+makePlural(size_t size, string&& word, string&& plural) {
+  return (size>1) ? word+plural : word;
+}
+
+ostream&
+print(ostream& ostrm, const QueryResult& result) {
+  ostrm << result.sought_ << " occurs " 
+        << result.lines_->size() << " "
+        << makePlural(result.lines_->size(), "time", "s") << '\n';
+  return ostrm;
+}
+
+void 
+runQueries(std::ifstream &infile) {
+  TextQuery text_query(infile);
   while (true) {
     cout << "enter word to look for, or q to quit: ";
-    string s;
-    if (!(cin >> s) || s == "q")
-      break;
-    print(cout, tq.query(s)) << '\n';
+    string str;
+    if (!(cin >> str) || str == "q") { break; }
+    print(cout, text_query.query(str)) << '\n';
   }
 }

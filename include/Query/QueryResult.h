@@ -11,10 +11,10 @@ class QueryResult {
   friend std::ostream& print(std::ostream&, const QueryResult&);
 
 public:
-  QueryResult(std::string str,
-              std::shared_ptr<std::set<TextQuery::LineNo>> lines,
-              std::shared_ptr<std::vector<std::string>> file) 
-    : sought_(str)
+  QueryResult(const std::string& sought,
+              const std::shared_ptr<std::set<TextQuery::LineNo>> lines,
+              const std::shared_ptr<std::vector<std::string>> file) 
+    : sought_(sought)
      ,lines_(lines)
      ,file_(file) { }
 

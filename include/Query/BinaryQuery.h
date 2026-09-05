@@ -8,7 +8,7 @@ class BinaryQuery : public QueryBase {
 protected:
   BinaryQuery(const Query& lhs, 
               const Query& rhs, 
-              std::string op_sym)
+              const std::string& op_sym)
     : lhs_(lhs)
     , rhs_(rhs)
     , op_sym_(op_sym) { }

@@ -63,6 +63,10 @@ print(ostream& ostrm, const QueryResult& result) {
   ostrm << result.sought_ << " occurs " 
         << result.lines_->size() << " "
         << makePlural(result.lines_->size(), "time", "s") << '\n';
+  for (auto num : *result.lines_) {
+    ostrm << "\t(line " << num + 1 << ") "
+          << *(result.file_->begin() + static_cast<long>(num)) << '\n';
+  }
   return ostrm;
 }
 

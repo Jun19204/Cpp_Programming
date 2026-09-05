@@ -3,13 +3,18 @@
 # ============================================================
 
 add_executable(
-  TextQuery_app
-  TextQuery-main.cc
+  Query_app
+  Query-main.cc
+)
+target_include_directories(
+  Query_app
+  PRIVATE
+  "${PROJECT_SOURCE_DIR}/include"
 )
 target_link_libraries(
-  TextQuery_app
+  Query_app
   PRIVATE
-  TextQuery_lib
+  Query_lib
   project_warnings
   project_sanitizers
 )
